@@ -3,6 +3,9 @@ import { ProgressStatus, QuestState } from 'dcl-quests-client/quests-client-amd'
 import { progressInQuest, taskIds } from './quests'
 import * as utils from '@dcl/ecs-scene-utils'
 
+let clicksCount = 0
+let canPick = true
+
 export class Herb extends Entity {
   private task: taskIds
   //   private step: stepIds
@@ -37,12 +40,6 @@ export class Herb extends Entity {
       new OnPointerDown(
         () => {
           this.pick()
-          progressInQuest(this.task, true)
-          //   this.client.makeProgress(this.task, {
-          //     type: 'step-based',
-          //     stepStatus: ProgressStatus.COMPLETED,
-          //     stepId: this.step,
-          //   })
         },
         {
           hoverText: 'Collect',
@@ -53,20 +50,24 @@ export class Herb extends Entity {
     )
   }
   pick() {
-    // sound
+    if (!canPick) return
+
+    canPick = false
 
     let collectSound = new AudioClip('sounds/grab.mp3')
     this.addComponentOrReplace(new AudioSource(collectSound))
     this.getComponent(AudioSource).playOnce()
-
-    // this.removeComponent(OnPointerDown)
-
     this.pickAnim.play()
+
+    if (clicksCount < 3) {
+      progressInQuest(this.task, true)
+    }
+    clicksCount += 1
 
     utils.setTimeout(600, () => {
       this.idleAnim.play()
-      //   this.getComponent(GLTFShape).visible = false
-      //   engine.removeEntity(this)
+
+      canPick = true
     })
   }
 }

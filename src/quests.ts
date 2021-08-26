@@ -53,7 +53,7 @@ export async function handleQuests() {
       //   if (!query(questProg).isStepCompleted(stepIds.medieval2)) {
       let herb2 = new Herb(
         'models/vine.glb',
-        { position: new Vector3(87, 0.28, 156) },
+        { position: new Vector3(87, 0.2, 156) },
         taskIds.medievalHerb,
         //   stepIds.medieval2,
         client
@@ -62,7 +62,7 @@ export async function handleQuests() {
       //   if (!query(questProg).isStepCompleted(stepIds.medieval3)) {
       let herb3 = new Herb(
         'models/vine.glb',
-        { position: new Vector3(180, 3.4, 178) },
+        { position: new Vector3(53, 0.07, 83) },
         taskIds.medievalHerb,
         //   stepIds.medieval3,
         client
